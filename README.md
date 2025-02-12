@@ -1,10 +1,19 @@
 # Fine-scale Striatal Parcellation using Diffusion MRI Tractography and Graph Neural Networks
 
-This repository contains the source code for the paper **"Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks."** The code leverages graph neural networks (GNNs) to perform fine-scale parcellation of the striatum based on diffusion MRI tractography data.
+This repository contains the source code for the paper **"Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks."**
+
+## Citation
+Gao, J., Liu, M., Qian, M., Tang, H., Wang, J., Ma, L., Li, Y., Dai, X., Wang, Z., Lu, F., and Zhang, F., 2025. Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks. *Medical Image Analysis*, p.103482. The code leverages graph neural networks (GNNs) to perform fine-scale parcellation of the striatum based on diffusion MRI tractography data.
 
 > **Note:** This repository now includes scripts for running pretraining and finetuning, located in the `scripts/` folder.
 
 ---
+
+## Paper Information
+
+This repository is associated with the following paper:
+
+**Gao, J., Liu, M., Qian, M., Tang, H., Wang, J., Ma, L., Li, Y., Dai, X., Wang, Z., Lu, F., and Zhang, F. (2025).** Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks. *Medical Image Analysis*, p.103482.
 
 ## Overview
 
@@ -18,11 +27,13 @@ The project pipeline consists of two main stages:
 
 ---
 
+Additionally, the fiber tract tracing preprocessing part of the HCP dataset is included in this repository.
+
 ## Code Structure
 
 The code is organized into the following modules:
 
-### **Main Scripts**
+### **Main Scripts (Newly Added in `scripts/` Directory)**
 
 - **`scripts/run_pretrain.py`**  
   - Loads diffusion MRI graph data from the HCP dataset.
@@ -83,6 +94,9 @@ pip install torch torch_geometric numpy scipy scikit-learn tensorboard matplotli
 ```
 
 ---
+
+## HCP Dataset Preprocessing
+The fiber tract tracing preprocessing part of the HCP dataset is available at: [https://github.com/LiuMingqi2001/Fiber-Tract-Tracing-Pipeline](https://github.com/LiuMingqi2001/Fiber-Tract-Tracing-Pipeline)
 
 ## Notes and Recommendations
 
