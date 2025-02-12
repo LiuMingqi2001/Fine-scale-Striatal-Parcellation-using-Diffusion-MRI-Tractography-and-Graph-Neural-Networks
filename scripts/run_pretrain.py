@@ -10,7 +10,7 @@ def main():
     graphs = load_hcp_graphs(data_dir, subject_file, omatrix_folder="probtrackx_R_omatrix2", distance_threshold=5)
     loader = DataLoader(graphs, batch_size=10, shuffle=True)
     
-    model = GCNNet(in_channels=72, hidden_channels=96, out_channels=128)
+    model = GCNNet(in_channels=72, hidden_channels=64, out_channels=48)
     pretrain(model, loader, epochs=2000, log_interval=10, 
              save_path="params/pretrained_model.pth", device='cuda:0')
 
