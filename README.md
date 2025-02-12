@@ -25,6 +25,9 @@ The code is organized into the following modules within the `src/` directory:
 - **`data_loader.py`**  
   Contains functions for loading and preprocessing diffusion MRI tractography data. This module builds graph representations (using PyTorch Geometric's `Data` objects) from subject-specific files.
 
+  - **Note on `omatrix_folder`:**  
+    The parameter `omatrix_folder` specifies the folder name where the connectivity matrices and coordinate files are stored for each subject. For example, `"probtrackx_R_omatrix2"` refers to data for the right brain hemisphere, whereas `"probtrackx_L_omatrix2"` refers to data for the left brain hemisphere. Select the appropriate folder based on the hemisphere of interest.
+
 - **`model.py`**  
   Implements the graph convolutional network (`GCNNet`). The network is constructed using TransformerConv layers along with batch normalization and ReLU activations.
 
