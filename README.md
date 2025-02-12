@@ -1,8 +1,8 @@
 # Fine-scale Striatal Parcellation using Diffusion MRI Tractography and Graph Neural Networks
 
-This repository contains the source code for the paper **"Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks."** The code leverages graph neural networks (GNNs) to perform fine-scale parcellation of the striatum based on diffusion MRI tractography data. All code is located in the `src/` folder.
+This repository contains the source code for the paper **"Fine-scale striatal parcellation using diffusion MRI tractography and graph neural networks."** The code leverages graph neural networks (GNNs) to perform fine-scale parcellation of the striatum based on diffusion MRI tractography data.
 
-> **Note:** This repository currently contains only the `src` part of the project. You may later add additional directories (e.g., for data, logs, or pre-trained parameters) as your project evolves.
+> **Note:** This repository now includes scripts for running pretraining and finetuning, located in the `scripts/` folder.
 
 ---
 
@@ -20,25 +20,46 @@ The project pipeline consists of two main stages:
 
 ## Code Structure
 
-The code is organized into the following modules within the `src/` directory:
+The code is organized into the following modules:
 
-- **`data_loader.py`**  
-  Contains functions for loading and preprocessing diffusion MRI tractography data. This module builds graph representations (using PyTorch Geometric's `Data` objects) from subject-specific files.
+### **Main Scripts**
+
+- **`scripts/run_pretrain.py`**  
+  - Loads diffusion MRI graph data from the HCP dataset.
+  - Initializes a GCN model and trains it using reconstruction loss.
+  - Saves the pre-trained model in `params/pretrained_model.pth`.
+  
+  **Usage:**
+  ```bash
+  python scripts/run_pretrain.py
+  ```
+
+- **`scripts/run_finetune.py`**  
+  - Loads the pre-trained model.
+  - Uses a joint loss function incorporating clustering and diversity constraints.
+  - Saves the fine-tuned model in `params/finetuned_model.pth`.
+
+  **Usage:**
+  ```bash
+  python scripts/run_finetune.py
+  ```
+
+### **Core Modules (`src/` Directory)**
+
+- **`src/data_loader.py`**  
+  Loads and preprocesses diffusion MRI tractography data, converting them into graph representations.
 
   - **Note on `omatrix_folder`:**  
-    The parameter `omatrix_folder` specifies the folder name where the connectivity matrices and coordinate files are stored for each subject. For example, `"probtrackx_R_omatrix2"` refers to data for the right brain hemisphere, whereas `"probtrackx_L_omatrix2"` refers to data for the left brain hemisphere. Select the appropriate folder based on the hemisphere of interest.
+    The parameter `omatrix_folder` specifies the folder name where the connectivity matrices and coordinate files are stored for each subject. For example, `"probtrackx_R_omatrix2"` refers to data for the right brain hemisphere, whereas `"probtrackx_L_omatrix2"` refers to data for the left brain hemisphere.
 
-- **`model.py`**  
+- **`src/model.py`**  
   Implements the graph convolutional network (`GCNNet`). The network is constructed using TransformerConv layers along with batch normalization and ReLU activations.
 
-- **`trainer.py`**  
-  Provides the pretraining routine. This module defines a training loop that optimizes the reconstruction loss, saves the best model, and logs training progress using TensorBoard.
+- **`src/trainer.py`**  
+  Provides the pretraining routine, optimizing the reconstruction loss and logging training progress using TensorBoard.
 
-- **`finetuner.py`**  
-  Implements the finetuning and clustering procedure. This module integrates K-Means clustering with the model’s latent representations and defines a joint loss (reconstruction, clustering, and diversity losses) for fine-scale parcellation.
-
-- **`utils.py`** (Optional)  
-  You can include helper functions (e.g., logging, metrics, or additional utilities) in this module.
+- **`src/finetuner.py`**  
+  Implements the finetuning and clustering procedure by integrating K-Means clustering with the model’s latent representations.
 
 ---
 
@@ -55,7 +76,29 @@ Make sure you have the following installed:
 - TensorBoard
 - Matplotlib (optional, for visualization)
 
-Install the Python dependencies using:
+Install the dependencies using:
 
 ```bash
 pip install torch torch_geometric numpy scipy scikit-learn tensorboard matplotlib
+```
+
+---
+
+## Notes and Recommendations
+
+1. **Ensure Correct Paths:** Update dataset paths (`/path/to/HCP/data`, `/path/to/sub_ids`, etc.) before running the scripts.
+2. **Check `params/` Directory:** If saving models in `params/`, make sure the directory exists:
+   ```python
+   import os
+   os.makedirs("params", exist_ok=True)
+   ```
+3. **GPU/CPU Compatibility:** If running on a system without CUDA, modify the device assignment:
+   ```python
+   device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+   ```
+4. **KMeans Initialization:** If training is slow, consider reducing `n_init=100` in `KMeans(n_clusters=..., n_init=100)`.
+
+---
+
+This code was uploaded after refactoring and optimization, and some minor bugs will be fixed later.
+
