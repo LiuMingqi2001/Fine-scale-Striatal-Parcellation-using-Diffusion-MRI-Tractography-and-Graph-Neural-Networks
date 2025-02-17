@@ -28,6 +28,8 @@ The project pipeline consists of two main stages:
 ---
 
 Additionally, the fiber tract tracing preprocessing part of the HCP dataset is included in this repository.
+[https://github.com/LiuMingqi2001/Fiber-Tract-Tracing-Pipeline](https://github.com/LiuMingqi2001/Fiber-Tract-Tracing-Pipeline) or 
+[https://github.com/trichtu/BAI-Net-Brain-Atlas-Individualization-Network](https://github.com/trichtu/BAI-Net-Brain-Atlas-Individualization-Network)
 
 ## Code Structure
 
